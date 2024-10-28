@@ -11,13 +11,13 @@ const CartItem = ({ onContinueShopping }) => {
   const calculateTotalAmount = () => {
         let totalCost = 0;//Initialization of totalCost
         cart.forEach((item) => {//Iteration over cart
-            totalCost += item.cost * item.quantity;
+            totalCost += item.quantity * parseFloat(item.cost.substring(1));
           });
         return totalCost;
   };
 
   const handleContinueShopping = (e) => {
-    onContinueShopping(); // Call the function passed from the parent component
+    onContinueShopping(e); // Call the function passed from the parent component
   };
 
   const handleCheckoutShopping = (e) => {
@@ -38,12 +38,14 @@ const CartItem = ({ onContinueShopping }) => {
   };
 
   const handleRemove = (item) => {
-    dispatch(removeItem(item))
+    if (item.quantity>0){
+        dispatch(removeItem(item.name));
+    }
   };
 
   // Calculate total cost based on quantity for an item
   const calculateTotalCost = (item) => {
-    return item.cost * item.quantity;
+    return item.quantity * parseFloat(item.cost.substring(1));
   };
 
   return (
